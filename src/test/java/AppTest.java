@@ -84,4 +84,17 @@ public class AppTest {
         // then
         assertThat(articleDtosFromJson).isEqualTo(articleDtos);
     }
+
+    @Test
+    void ObjectMapper__jsonStrToArticleDtoMap() {
+        Map<String, ArticleDto> articleDtoMap = new HashMap<>();
+        articleDtoMap.put("old", new ArticleDto(1, "제목1", "내용1"));
+        articleDtoMap.put("new", new ArticleDto(2, "제목2", "내용2"));
+        String jsonStr = Ut.json.toStr(articleDtoMap, "");
+
+        Map<String, ArticleDto> articleDtoMapFromJson = Ut.json.toMap(jsonStr, new TypeReference<>() {
+        }, null);
+
+        System.out.println(jsonStr);
+    }
 }
