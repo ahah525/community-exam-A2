@@ -2,6 +2,7 @@ package com.ll.exam.article;
 
 import com.ll.exam.Rq;
 import com.ll.exam.article.dto.ArticleDto;
+import com.ll.exam.util.Ut;
 import jakarta.servlet.ServletException;
 
 import java.io.IOException;
@@ -140,5 +141,12 @@ public class ArticleController {
 
         // 게시글 수정 문구 출력 후 리스트 페이지 이동
         rq.replace("/usr/article/list/free", "%d번 게시물이 수정되었습니다.".formatted(id));
+    }
+
+    public void findAll(Rq rq) {
+        List<ArticleDto> articleDtos = articleService.findAll();
+        String toStr = Ut.json.toStr(articleDtos, null);
+        System.out.println(toStr);
+        rq.println(toStr);
     }
 }
