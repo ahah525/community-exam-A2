@@ -1,5 +1,6 @@
 package com.ll.exam;
 
+import com.ll.exam.util.Ut;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -141,10 +142,11 @@ public class Rq {
     }
 
     // json
-    public void toJson(String jsonStr) {
+    public void json(Object data) {
         // json 응답
         resp.setContentType("application/json");
-        print(jsonStr);
+        String res = Ut.json.toStr(data, "");
+        print(res);
     }
 }
 

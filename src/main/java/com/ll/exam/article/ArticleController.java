@@ -2,11 +2,12 @@ package com.ll.exam.article;
 
 import com.ll.exam.Rq;
 import com.ll.exam.article.dto.ArticleDto;
-import com.ll.exam.util.Ut;
 import jakarta.servlet.ServletException;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ArticleController {
     private ArticleService articleService;
@@ -145,8 +146,13 @@ public class ArticleController {
 
     public void findAll(Rq rq) {
         List<ArticleDto> articleDtos = articleService.findAll();
-        String jsonStr = Ut.json.toStr(articleDtos, null);
 
-        rq.toJson(jsonStr);
+        // 순서 보장을 위해 LinkedHashMap 사용
+        Map<String, Object> res = new LinkedHashMap<>();
+        res.put("resultCode", "S-1");
+        res.put("msg", "성공");
+        res.put("data", articleDtos);
+
+        rq.json(res);
     }
 }
