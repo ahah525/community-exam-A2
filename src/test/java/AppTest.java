@@ -2,6 +2,11 @@ import com.ll.exam.article.dto.ArticleDto;
 import com.ll.exam.util.Ut;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AppTest {
@@ -12,7 +17,7 @@ public class AppTest {
     }
 
     @Test
-    void 테스트_ObjectMapper__objToJsonStr() {
+    void 테스트_ObjectMapper__articleDtoToJsonStr() {
         // given: ArticleDto 생성
         ArticleDto articleDto = new ArticleDto(1, "제목", "내용");
         // when: json 문자열로 변환
@@ -21,6 +26,37 @@ public class AppTest {
         assertThat(jsonStr).isNotBlank();
         assertThat(jsonStr).isEqualTo("""
                 {"id":1,"title":"제목","body":"내용"}
+                """.trim());
+    }
+
+    @Test
+    void 테스트_ObjectMapper__articleDtoListToJsonStr() {
+        // given
+        List<ArticleDto> articleDtos = new ArrayList<>();
+        articleDtos.add(new ArticleDto(1, "제목1", "내용1"));
+        articleDtos.add(new ArticleDto(2, "제목2", "내용2"));
+        // when
+        String jsonStr = Ut.json.toStr(articleDtos, "");
+        // then
+        assertThat(jsonStr).isEqualTo("""
+                [{"id":1,"title":"제목1","body":"내용1"},{"id":2,"title":"제목2","body":"내용2"}]
+                """.trim());
+    }
+
+    @Test
+    void 테스트_ObjectMapper__articleDtoMapToJsonStr() {
+        // given
+        Map<String, ArticleDto> articleDtoMap = new HashMap<>();
+        articleDtoMap.put("old", new ArticleDto(1, "제목1", "내용1"));
+        articleDtoMap.put("new", new ArticleDto(2, "제목2", "내용2"));
+        // when
+        String jsonStr = Ut.json.toStr(articleDtoMap, "");
+        // then
+        assertThat(jsonStr).contains("""
+                "old":{"id":1,"title":"제목1","body":"내용1"}
+                """.trim());
+        assertThat(jsonStr).contains("""
+                "new":{"id":2,"title":"제목2","body":"내용2"}
                 """.trim());
     }
 
