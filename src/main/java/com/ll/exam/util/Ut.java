@@ -28,7 +28,7 @@ public class Ut {
             }
         }
 
-        // JSON 문자열 -> Java 객체 Deserialization
+        // JSON -> Java 객체 Deserialization
         public static <T> T toObj(String jsonStr, Class<T> cls, T defaultValue) {
             try {
                 return om.readValue(jsonStr, cls);
@@ -37,17 +37,8 @@ public class Ut {
             }
         }
 
-        // Json 배열 -> List<Dto>
-        public static <T> List<T> toObj(String jsonStr, TypeReference<List<T>> typeReference, List<T> defaultValue) {
-            try {
-                return om.readValue(jsonStr, typeReference);
-            } catch (JsonProcessingException e) {
-                return defaultValue;
-            }
-        }
-
-        // Json Map -> Map<,>
-        public static <K, V> Map<K, V> toMap(String jsonStr, TypeReference<Map<K, V>> typeReference, Map<K, V> defaultValue) {
+        // 복잡한 Json -> Java List, Map
+        public static <T> T toObj(String jsonStr, TypeReference<T> typeReference, T defaultValue) {
             try {
                 return om.readValue(jsonStr, typeReference);
             } catch (JsonProcessingException e) {
