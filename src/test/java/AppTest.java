@@ -16,7 +16,7 @@ public class AppTest {
         // given: ArticleDto 생성
         ArticleDto articleDto = new ArticleDto(1, "제목", "내용");
         // when: json 문자열로 변환
-        String jsonStr = Ut.json.toJsonStr(articleDto, null);
+        String jsonStr = Ut.json.toStr(articleDto, null);
         // then: 변환된 json 문자열이 null이 아니고 제대로 변환되었는지 검증
         assertThat(jsonStr).isNotBlank();
         assertThat(jsonStr).isEqualTo("""
