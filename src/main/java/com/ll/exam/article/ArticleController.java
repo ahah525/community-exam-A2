@@ -2,6 +2,7 @@ package com.ll.exam.article;
 
 import com.ll.exam.Rq;
 import com.ll.exam.article.dto.ArticleDto;
+import com.ll.exam.util.Ut;
 import jakarta.servlet.ServletException;
 
 import java.io.IOException;
@@ -146,13 +147,9 @@ public class ArticleController {
 
     public void findAll(Rq rq) {
         List<ArticleDto> articleDtos = articleService.findAll();
-
-        // 순서 보장을 위해 LinkedHashMap 사용
-        Map<String, Object> res = new LinkedHashMap<>();
-        res.put("resultCode", "S-1");
-        res.put("msg", "성공");
-        res.put("data", articleDtos);
-
+        // 메타데이터를 포함해 Map으로
+        Map<String, Object> res = Ut.mapOf("resultCode", "S-1", "msg", "성공", "data", articleDtos);
+        // Map을 json으로 변환하여 응답
         rq.json(res);
     }
 }
