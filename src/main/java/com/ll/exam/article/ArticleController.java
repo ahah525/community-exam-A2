@@ -1,12 +1,12 @@
 package com.ll.exam.article;
 
+import com.ll.exam.ResponseData;
 import com.ll.exam.Rq;
 import com.ll.exam.article.dto.ArticleDto;
 import com.ll.exam.util.Ut;
 import jakarta.servlet.ServletException;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -147,9 +147,8 @@ public class ArticleController {
 
     public void findAll(Rq rq) {
         List<ArticleDto> articleDtos = articleService.findAll();
-        // 메타데이터를 포함해 Map으로
-        Map<String, Object> res = Ut.mapOf("resultCode", "S-1", "msg", "성공", "data", articleDtos);
-        // Map을 json으로 변환하여 응답
+        //
+        ResponseData<List<ArticleDto>> res = new ResponseData<>("S-1", "성공", articleDtos);
         rq.json(res);
     }
 }
