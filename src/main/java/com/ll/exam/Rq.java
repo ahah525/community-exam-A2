@@ -139,5 +139,12 @@ public class Rq {
                 </script>
                 """.formatted(uri));
     }
+
+    // json
+    public void toJson(String jsonStr) {
+        // json 응답
+        resp.setContentType("application/json");
+        print(jsonStr);
+    }
 }
 
