@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.ll.exam.article.dto.ArticleDto;
 import com.ll.exam.util.Ut;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ public class AppTest {
     }
 
     @Test
-    void 테스트_ObjectMapper__articleDtoToJsonStr() {
+    void 테스트_ObjectMapper__ArticleDtoToJsonStr() {
         // given: ArticleDto 생성
         ArticleDto articleDto = new ArticleDto(1, "제목", "내용");
         // when: json 문자열로 변환
@@ -30,7 +31,7 @@ public class AppTest {
     }
 
     @Test
-    void 테스트_ObjectMapper__articleDtoListToJsonStr() {
+    void 테스트_ObjectMapper__ArticleDtoListToJsonStr() {
         // given
         List<ArticleDto> articleDtos = new ArrayList<>();
         articleDtos.add(new ArticleDto(1, "제목1", "내용1"));
@@ -44,7 +45,7 @@ public class AppTest {
     }
 
     @Test
-    void 테스트_ObjectMapper__articleDtoMapToJsonStr() {
+    void 테스트_ObjectMapper__ArticleDtoMapToJsonStr() {
         // given
         Map<String, ArticleDto> articleDtoMap = new HashMap<>();
         articleDtoMap.put("old", new ArticleDto(1, "제목1", "내용1"));
@@ -66,8 +67,21 @@ public class AppTest {
         ArticleDto articleDto = new ArticleDto(1, "제목", "내용");
         String jsonStr = Ut.json.toStr(articleDto, null);
         // when: Json -> Java 객체 변환
-        ArticleDto articleDto1 = Ut.json.toObj(jsonStr, ArticleDto.class, null);
+        ArticleDto articleDtoFromJson = Ut.json.toObj(jsonStr, ArticleDto.class, null);
         // then: ArticleDto가 제대로 변환되었는지 검증
-        assertThat(articleDto1).isEqualTo(articleDto);
+        assertThat(articleDtoFromJson).isEqualTo(articleDto);
+    }
+
+    @Test
+    void 테스트_ObjectMapper__JsonStrToArticleDtoList() {
+        // given
+        List<ArticleDto> articleDtos = new ArrayList<>();
+        articleDtos.add(new ArticleDto(1, "제목1", "내용1"));
+        articleDtos.add(new ArticleDto(2, "제목2", "내용2"));
+        String jsonStr = Ut.json.toStr(articleDtos, "");
+        // when
+        List<ArticleDto> articleDtosFromJson = Ut.json.toObj(jsonStr, new TypeReference<>() {}, null);
+        // then
+        assertThat(articleDtosFromJson).isEqualTo(articleDtos);
     }
 }
