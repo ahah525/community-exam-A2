@@ -30,7 +30,7 @@ public class AppTest {
         ArticleDto articleDto = new ArticleDto(1, "제목", "내용");
         String jsonStr = Ut.json.toStr(articleDto, null);
         // when: Json -> Java 객체 변환
-        ArticleDto articleDto1 = (ArticleDto) Ut.json.toObj(jsonStr, ArticleDto.class, null);
+        ArticleDto articleDto1 = Ut.json.toObj(jsonStr, ArticleDto.class, null);
         // then: ArticleDto가 제대로 변환되었는지 검증
         assertThat(articleDto1).isEqualTo(articleDto);
     }
