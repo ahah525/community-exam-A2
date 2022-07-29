@@ -148,5 +148,17 @@ public class Rq {
         String res = Ut.json.toStr(data, "");
         print(res);
     }
+
+    public void json(Object data, String resultCode, String msg) {
+        json(new ResponseData(resultCode, msg, data));
+    }
+
+    public void successResponse(Object data) {
+        json(data, "S-1", "성공");
+    }
+
+    public void failResponse(Object data) {
+        json(data, "F-1", "실패");
+    }
 }
 
