@@ -1,14 +1,11 @@
 package com.ll.exam.article;
 
-import com.ll.exam.ResponseData;
 import com.ll.exam.Rq;
 import com.ll.exam.article.dto.ArticleDto;
-import com.ll.exam.util.Ut;
 import jakarta.servlet.ServletException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class ArticleController {
     private ArticleService articleService;
@@ -146,7 +143,16 @@ public class ArticleController {
     }
 
     public void findAll(Rq rq) {
-        List<ArticleDto> articleDtos = articleService.findAll();
+
+        long fromId = rq.getLongParam("fromId", -1);
+        List<ArticleDto> articleDtos;
+
+        if (fromId == -1) {
+            articleDtos = articleService.findAll();
+        } else {
+            articleDtos = articleService.findAllGreaterThan(fromId);
+        }
+
         //
         rq.successResponse(articleDtos);
     }

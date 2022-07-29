@@ -39,6 +39,21 @@ public class Rq {
         return Integer.parseInt(value);
     }
 
+    // 파라미터 값을 long으로 반환하는 메서드
+    public long getLongParam(String paramName, long defaultValue) {
+        String value = req.getParameter(paramName);
+
+        if (value == null) {
+            return defaultValue;
+        }
+
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
     // 기존 appendBody
     public void println(String str) {
         print(str + "\n");
