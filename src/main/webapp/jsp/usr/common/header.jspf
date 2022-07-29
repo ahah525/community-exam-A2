@@ -18,6 +18,9 @@
     <!-- 테일윈드 불러오기 -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- 데이지UI 불러오기 -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.20.0/dist/full.css" rel="stylesheet" type="text/css" />
+
     <!-- 공통 CSS -->
     <style>
         @font-face {
