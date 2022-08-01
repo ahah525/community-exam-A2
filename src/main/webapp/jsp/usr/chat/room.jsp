@@ -60,11 +60,13 @@
                             <span class="message-list__message-body">\${message.body}</span>
                             &nbsp;
                             <a onclick="if ( confirm('정말로 삭제하시겠습니까?') ) ChatMessage__remove(\${message.id}, this); return false;" class="cursor-pointer hover:underline hover:text-[red] mr-2">삭제</a>
+                            <a onclick="ChatMessages__showModify(this);" class="cursor-pointer hover:underline hover:text-[red]">수정</a>
                         </div>
-                        <form onsubmit="ChatMessage__modify(this); return false;">
+                        <form class="hidden" onsubmit="ChatMessage__modify(this); return false;">
                             <input type="hidden" name="id" value="\${message.id}" />
                             <input type="text" name="body" class="input input-bordered" placeholder="내용" value="\${message.body}" />
                             <button type="submit" class="btn btn-secondary btn-outline">수정</button>
+                            <button type="button" class="btn btn-outline" onclick="ChatMessages__hideModify(this);">수정취소</button>
                         </form>
                     </li>
                 `;
@@ -119,8 +121,22 @@
                 const $li = $(form).closest('li');
                 // $li 안에 존하는 클래스가 message-list__message-body 엘리먼트의 내용을 비우고 form의 body에 담긴 값을 채움
                 $li.find('.message-list__message-body').empty().append(form.body.value);
+                // 수정폼 숨기기
+                ChatMessages__hideModify(form);
             },
         });
+    }
+    // 채팅 메시지 수정폼 보여주기
+    function ChatMessages__showModify(btn) {
+        const $li = $(btn).closest('li');
+        const $form = $li.find('form');
+        $form.removeClass('hidden');
+    }
+    // 채팅 메시지 수정폼 숨기기
+    function ChatMessages__hideModify(btn) {
+        const $li = $(btn).closest('li');
+        const $form = $li.find('form');
+        $form.addClass('hidden');
     }
 </script>
 
