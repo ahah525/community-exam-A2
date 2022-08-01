@@ -57,7 +57,7 @@
                         <div class="flex">
                             <span>메세지 \${message.id} :</span>
                             &nbsp;
-                            <span>\${message.body}</span>
+                            <span class="message-list__message-body">\${message.body}</span>
                             &nbsp;
                             <a onclick="if ( confirm('정말로 삭제하시겠습니까?') ) ChatMessage__remove(\${message.id}, this); return false;" class="cursor-pointer hover:underline hover:text-[red] mr-2">삭제</a>
                         </div>
@@ -112,6 +112,13 @@
             dataType: "json",
             success: function (res) {
                 console.log(res);
+                // form을 기준으로 태그가 li인 가장 가까운 조상 한명 가져옴
+                // $(form).parent(); 해도 됨
+                // 그렇게 검색한 결과를 $li 변수에 넣는다.
+                // 변수명이 $로 시작했다고 해서 특별한 것은 아니다.
+                const $li = $(form).closest('li');
+                // $li 안에 존하는 클래스가 message-list__message-body 엘리먼트의 내용을 비우고 form의 body에 담긴 값을 채움
+                $li.find('.message-list__message-body').empty().append(form.body.value);
             },
         });
     }
