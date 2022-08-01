@@ -69,7 +69,17 @@ public class ChatMessageRepository {
         if (chatMessageDto == null) {
             return;
         }
-
+        // 삭제
         datum.remove(chatMessageDto);
+    }
+
+    public void modifyMessage(long id, String body) {
+        ChatMessageDto chatMessageDto = findById(id);
+        // 예외처리
+        if (chatMessageDto == null) {
+            return;
+        }
+        // 내용 수정
+        chatMessageDto.setBody(body);
     }
 }

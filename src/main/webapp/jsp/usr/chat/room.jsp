@@ -62,6 +62,7 @@
                             <a onclick="if ( confirm('정말로 삭제하시겠습니까?') ) ChatMessage__remove(\${message.id}, this); return false;" class="cursor-pointer hover:underline hover:text-[red] mr-2">삭제</a>
                         </div>
                         <form onsubmit="ChatMessage__modify(this); return false;">
+                            <input type="hidden" name="id" value="\${message.id}" />
                             <input type="text" name="body" class="input input-bordered" placeholder="내용" value="\${message.body}" />
                             <button type="submit" class="btn btn-secondary btn-outline">수정</button>
                         </form>
@@ -101,6 +102,18 @@
             form.body.focus();
             return;
         }
+        // ajax로 POST 수정 요청
+        $.ajax({
+            type: "POST",
+            url: `/usr/chat/modifyMessageAjax/\${form.id.value}`,
+            data: {
+                body: form.body.value
+            },
+            dataType: "json",
+            success: function (res) {
+                console.log(res);
+            },
+        });
     }
 </script>
 

@@ -290,4 +290,31 @@ public class ChatController {
         chatService.deleteMessage(id);
         rq.json(id, "s-1", "%d번 메시지가 삭제되었습니다.".formatted(id));
     }
+
+    public void modifyMessageAjax(Rq rq) {
+        long id = rq.getLongPathValueByIndex(0, 0);
+
+        if (id == 0) {
+            rq.failResponse("번호를 입력해주세요.");
+            return;
+        }
+
+        // 해당 id의 채팅 메시지
+        ChatMessageDto chatMessageDto = chatService.findMessageById(id);
+
+        if (chatMessageDto == null) {
+            rq.failResponse("해당 메세지가 존재하지 않습니다.");
+            return;
+        }
+
+        String body = rq.getParam("body", "");
+
+        if ( body.trim().length() == 0 ) {
+            rq.failResponse("내용을 입력해주세요.");
+            return;
+        }
+        // 채팅 메시지 수정 후 응답
+        chatService.modifyMessage(id, body);
+        rq.json(id, "S-1", "%d번 메세지가 수정되었습니다.".formatted(id));
+    }
 }
