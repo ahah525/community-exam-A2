@@ -41,6 +41,8 @@ public class DispatchServlet extends HttpServlet {
         switch (rq.getActionPath()) {
             case "/usr/article/list":
                 articleController.showList(rq);
+            case "/usr/article/listAuto":
+                articleController.showListAuto(rq);
                 break;
             case "/usr/article/detail":
                 articleController.showDetail(rq);

@@ -156,4 +156,9 @@ public class ArticleController {
         //
         rq.successResponse(articleDtos);
     }
+
+    //
+    public void showListAuto(Rq rq) throws ServletException, IOException {
+        rq.view("usr/article/listAuto");
+    }
 }
