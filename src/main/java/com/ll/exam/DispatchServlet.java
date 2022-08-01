@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 @WebServlet("/usr/*")
 public class DispatchServlet extends HttpServlet {
@@ -108,6 +109,25 @@ public class DispatchServlet extends HttpServlet {
             // TODO: POST로 옮기기
             case "/usr/article/delete":
                 articleController.doDelete(rq);
+                break;
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws UnsupportedEncodingException {
+//        doGet(req, resp);
+        Rq rq = new Rq(req, resp);
+
+        MemberController memberController = new MemberController();
+        ArticleController articleController = new ArticleController();
+        ChatController chatController = new ChatController();
+
+        // 요청 메서드(get, post)에 따라 구분
+        // 요청 메서드(get, post)에 따라 구분
+        switch (rq.getActionPath()) {
+            // 채팅
+            case "/usr/chat/deleteMessageAjax":
+                chatController.deleteMessageAjax(rq);
                 break;
         }
     }

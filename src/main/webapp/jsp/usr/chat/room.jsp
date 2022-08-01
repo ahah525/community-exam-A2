@@ -71,10 +71,10 @@
                 setTimeout(ChatMessages__loadMore, 3000); // ChatMessages__loadMore(); 를 3초 뒤에 수행
             });
     }
-    // 채팅 메시지 삭제 POST 요청
+    // 채팅 메시지 삭제 DELETE 요청
     function ChatMessage__remove(id) {
         $.ajax({
-            type: "GET",
+            type: "DELETE",
             url: `/usr/chat/deleteMessageAjax/\${id}`,
             dataType: "json",
             success: function (res) {
