@@ -51,4 +51,25 @@ public class ChatMessageRepository {
                 .filter(chatMessageDto -> chatMessageDto.getId() > fromId)
                 .collect(Collectors.toList());
     }
+
+    // id로 채팅 메시지 조회
+    public ChatMessageDto findById(long id) {
+        for (ChatMessageDto chatMessageDto : datum) {
+            if (chatMessageDto.getId() == id) {
+                return chatMessageDto;
+            }
+        }
+        return null;
+    }
+
+    // 해당 id의 채팅 메시지 삭제
+    public void deleteMessage(long id) {
+        ChatMessageDto chatMessageDto = findById(id);
+        // 예외처리
+        if (chatMessageDto == null) {
+            return;
+        }
+
+        datum.remove(chatMessageDto);
+    }
 }

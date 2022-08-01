@@ -248,4 +248,26 @@ public class ChatController {
 
         rq.successResponse(newChatMessageId);
     }
+
+    // 채팅 메시지 삭제
+    public void deleteMessage(Rq rq) {
+        long id = rq.getLongPathValueByIndex(0, 0);
+
+        if (id == 0) {
+            rq.historyBack("번호를 입력해주세요.");
+            return;
+        }
+
+        ChatMessageDto chatMessageDto = chatService.findMessageById(id);
+
+        if (chatMessageDto == null) {
+            rq.historyBack("해당 메세지가 존재하지 않습니다.");
+            return;
+        }
+        chatService.deleteMessage(id);
+
+        // 채팅방으로 이동
+        long roomId = chatMessageDto.getRoomId();
+        rq.replace("/usr/chat/room/%d".formatted(roomId), "%d번 메세지가 삭제되었습니다.".formatted(id));
+    }
 }
