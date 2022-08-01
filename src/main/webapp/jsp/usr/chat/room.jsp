@@ -58,7 +58,7 @@
                         &nbsp;
                         <span>\${message.body}</span>
                         &nbsp;
-                        <a onclick="if ( confirm('정말로 삭제하시겠습니까?') ) ChatMessage__remove(\${message.id}); return false;" class="cursor-pointer hover:underline hover:text-[red] mr-2">삭제</a>
+                        <a onclick="if ( confirm('정말로 삭제하시겠습니까?') ) ChatMessage__remove(\${message.id}, this); return false;" class="cursor-pointer hover:underline hover:text-[red] mr-2">삭제</a>
                     </li>
                 `;
                     $('.chat-messages').append(html);
@@ -72,13 +72,15 @@
             });
     }
     // 채팅 메시지 삭제 DELETE 요청
-    function ChatMessage__remove(id) {
+    function ChatMessage__remove(id, btn) {
         $.ajax({
             type: "DELETE",
             url: `/usr/chat/deleteMessageAjax/\${id}`,
             dataType: "json",
             success: function (res) {
                 console.log(res);
+                // li 삭제
+                $(btn).parent().remove();
             },
         });
     }
