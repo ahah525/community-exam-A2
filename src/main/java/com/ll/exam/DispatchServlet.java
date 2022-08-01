@@ -68,6 +68,9 @@ public class DispatchServlet extends HttpServlet {
             case "/usr/chat/roomManual":
                 chatController.showRoomManual(rq);
                 break;
+            case "usr/chat/getMessages":
+                chatController.getMessages(rq);
+                break;
             // TODO: POST로 옮기기(roomList.jsp 수정)
             case "/usr/chat/deleteRoom":
                 chatController.deleteRoom(rq);

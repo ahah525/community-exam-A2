@@ -185,4 +185,39 @@ public class ChatController {
 
         rq.replace("/usr/chat/room/%d".formatted(roomId), "메세지가 등록되었습니다.");
     }
+
+    // 채팅 메시지 json
+    public void getMessages(Rq rq) {
+        long roomId = rq.getLongPathValueByIndex(0, -1);
+
+        if (roomId == -1) {
+//            rq.historyBack("채팅방 번호를 입력해주세요.");
+            rq.failResponse("채팅방 번호를 입력해주세요.");
+            return;
+        }
+
+        ChatRoomDto chatRoomDto = chatService.findRoomById(roomId);
+
+        if (chatRoomDto == null) {
+            rq.failResponse("존재하지 않는 채팅방입니다.");
+//            rq.historyBack("존재하지 않는 채팅방 입니다.");
+            return;
+        }
+
+        // 가져와야할 채팅 메시지 id
+        long fromId = rq.getLongParam("fromId", -1);
+
+        // 해당 채팅방의 메시지 리스트
+        List<ChatMessageDto> chatMessageDtos = null;
+
+        if (fromId == -1) {
+            // 1. 채팅 메시지 전체 가져오기
+            chatMessageDtos = chatService.findMessagesByRoomId(roomId);
+        } else {
+            // 2. fromId부터 채팅 메시지 가져오기
+            chatMessageDtos = chatService.findMessagesByRoomIdGreaterThan(roomId, fromId);
+        }
+        // 성공
+        rq.successResponse(chatMessageDtos);
+    }
 }

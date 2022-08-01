@@ -42,4 +42,13 @@ public class ChatMessageRepository {
                 .filter(chatMessageDto -> chatMessageDto.getRoomId() == roomId)
                 .collect(Collectors.toList());
     }
+
+    // roomId 채팅방의 fromId 이후 채팅 메시지 리스트로 반환
+    public List<ChatMessageDto> findByRoomIdGreaterThan(long roomId, long fromId) {
+        return datum
+                .stream()
+                .filter(chatMessageDto -> chatMessageDto.getRoomId() == roomId)
+                .filter(chatMessageDto -> chatMessageDto.getId() > fromId)
+                .collect(Collectors.toList());
+    }
 }
