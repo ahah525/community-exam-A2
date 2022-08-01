@@ -25,22 +25,22 @@ public class DispatchServlet extends HttpServlet {
         switch (rq.getActionPath()) {
             // 채팅
             case "/usr/chat/writeMessage":
-                chatController.doWriteMessage(rq);
+                chatController.writeMessage(rq);
                 break;
             case "/usr/chat/writeMessageAjax":
-                chatController.doWriteMessageAjax(rq);
+                chatController.writeMessageAjax(rq);
                 break;
             case "/usr/chat/createRoom":
-                chatController.doCreateRoom(rq);
+                chatController.createRoom(rq);
                 break;
             case "/usr/chat/modifyRoom":
-                chatController.doModifyRoom(rq);
+                chatController.modifyRoom(rq);
                 break;
             // 게시물
             case "/usr/article/write":
-                articleController.doWrite(rq);
+                articleController.write(rq);
             case "/usr/article/modify":
-                articleController.doModify(rq);
+                articleController.modify(rq);
                 break;
         }
     }

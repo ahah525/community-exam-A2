@@ -29,7 +29,7 @@ public class ArticleController {
     }
 
     // 게시물 등록
-    public void doWrite(Rq rq) throws ServletException, IOException {
+    public void write(Rq rq) throws ServletException, IOException {
         // 요청에서 온 값 읽어서 response
         String title = rq.getParam("title", "");
         String body = rq.getParam("body", "");
@@ -116,7 +116,7 @@ public class ArticleController {
         rq.view("usr/article/modify");
     }
 
-    public void doModify(Rq rq) throws IOException {
+    public void modify(Rq rq) throws IOException {
         //free/1
         long id = rq.getLongPathValueByIndex(1, 0);
 

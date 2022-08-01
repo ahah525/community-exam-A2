@@ -17,7 +17,7 @@ public class ChatController {
         rq.view("usr/chat/createRoom");
     }
 
-    public void doCreateRoom(Rq rq) {
+    public void createRoom(Rq rq) {
         String title = rq.getParam("title", "");
         String body = rq.getParam("body", "");
 
@@ -62,7 +62,7 @@ public class ChatController {
         rq.view("usr/chat/modifyRoom");
     }
 
-    public void doModifyRoom(Rq rq) {
+    public void modifyRoom(Rq rq) {
         long id = rq.getLongPathValueByIndex(0, -1);
 
         if (id == -1) {
@@ -159,7 +159,7 @@ public class ChatController {
         rq.view("usr/chat/roomManual");
     }
 
-    public void doWriteMessage(Rq rq) {
+    public void writeMessage(Rq rq) {
         long roomId = rq.getLongPathValueByIndex(0, -1);
 
         if (roomId == -1) {
@@ -222,7 +222,7 @@ public class ChatController {
     }
 
     // ajax로 채팅 메시지 등록
-    public void doWriteMessageAjax(Rq rq) {
+    public void writeMessageAjax(Rq rq) {
         long roomId = rq.getLongPathValueByIndex(0, -1);
 
         if (roomId == -1) {
