@@ -44,6 +44,7 @@
 <script>
     // 마지막으로 가져온 채팅 메시지 id
     let ChatMessages__lastId = 0;
+    // 채팅 메시지 가져오기
     function ChatMessages__loadMore() {
         fetch(`/usr/chat/getMessages/${room.id}/?fromId=\${ChatMessages__lastId}`)
             .then(data => data.json())
@@ -57,7 +58,7 @@
                         &nbsp;
                         <span>\${message.body}</span>
                         &nbsp;
-                        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" class="hover:underline hover:text-[red] mr-2" href="/usr/chat/deleteMessage/\${message.id}?_method=DELETE">삭제</a>
+                        <a onclick="if ( confirm('정말로 삭제하시겠습니까?') ) ChatMessage__remove(\${message.id}); return false;" class="cursor-pointer hover:underline hover:text-[red] mr-2">삭제</a>
                     </li>
                 `;
                     $('.chat-messages').append(html);
@@ -69,6 +70,17 @@
                 // ChatMessages__loadMore(); // 즉시 실행
                 setTimeout(ChatMessages__loadMore, 3000); // ChatMessages__loadMore(); 를 3초 뒤에 수행
             });
+    }
+    // 채팅 메시지 삭제 POST 요청
+    function ChatMessage__remove(id) {
+        $.ajax({
+            type: "GET",
+            url: `/usr/chat/deleteMessageAjax/\${id}`,
+            dataType: "json",
+            success: function (res) {
+                console.log(res);
+            },
+        });
     }
 </script>
 
