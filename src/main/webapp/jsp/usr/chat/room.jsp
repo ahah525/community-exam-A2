@@ -11,7 +11,33 @@
             form.body.focus();
             return false;
         }
-        form.submit();
+        // fetch방식이 아닌 jquery 방식으로 POST 요청
+        $.ajax({
+           type: "POST",
+           url: "/usr/chat/writeMessageAjax/${room.id}",
+            data: {
+                body: form.body.value
+            },
+           dataType: "json",
+            success: function (res) {
+                console.log(res);
+            },
+        });
+        <%--$.post(--%>
+        <%--    '/usr/chat/writeMessageAjax/${room.id}', // 주소, action--%>
+        <%--    {--%>
+        <%--        body: form.body.value // 폼 내용, input name, value--%>
+        <%--    },--%>
+        <%--    function (data) { // 콜백 메서드, 통신이 완료된 후, 실행--%>
+        <%--        // data.resultCode--%>
+        <%--        // data.msg--%>
+        <%--        console.log(data.data);--%>
+        <%--    },--%>
+        <%--    'json' // 받은 데이터를 json 으로 해석하겠다.--%>
+        <%--);--%>
+        // 값 전송 후 원래 값 비우기
+        form.body.value = '';
+        form.body.focus();
     }
 </script>
 
@@ -29,7 +55,8 @@
                     <li class="flex">
                         <span>메세지 \${message.id} :</span>
                         &nbsp;
-                        <span>\${message.body}</a>
+                        <span>\${message.body}</span>
+                        &nbsp;
                         <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" class="hover:underline hover:text-[red] mr-2" href="/usr/chat/deleteMessage/\${message.id}?_method=DELETE">삭제</a>
                     </li>
                 `;

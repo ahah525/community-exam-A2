@@ -220,4 +220,32 @@ public class ChatController {
         // 성공
         rq.successResponse(chatMessageDtos);
     }
+
+    // ajax로 채팅 메시지 등록
+    public void doWriteMessageAjax(Rq rq) {
+        long roomId = rq.getLongPathValueByIndex(0, -1);
+
+        if (roomId == -1) {
+            rq.failResponse("채팅방 번호를 입력해주세요.");
+            return;
+        }
+
+        ChatRoomDto chatRoom = chatService.findRoomById(roomId);
+
+        if (chatRoom == null) {
+            rq.failResponse("존재하지 않는 채팅방 입니다.");
+            return;
+        }
+
+        String body = rq.getParam("body", "");
+
+        if (body.trim().length() == 0) {
+            rq.historyBack("내용을 입력해주세요.");
+            return;
+        }
+        // 등록된 채팅 메시지 id 번호를 응답으로 보냄
+        long newChatMessageId = chatService.writeMessage(roomId, body);
+
+        rq.successResponse(newChatMessageId);
+    }
 }
