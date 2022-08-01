@@ -1,6 +1,7 @@
 package com.ll.exam;
 
 import com.ll.exam.article.ArticleController;
+import com.ll.exam.chat.ChatController;
 import com.ll.exam.member.MemberController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,13 +16,24 @@ public class DispatchServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        doGet(req, resp);
         Rq rq = new Rq(req, resp);
 
         MemberController memberController = new MemberController();
         ArticleController articleController = new ArticleController();
+        ChatController chatController = new ChatController();
 
         switch (rq.getActionPath()) {
+            // 채팅
+            case "/usr/chat/writeMessage":
+                chatController.doWriteMessage(rq);
+                break;
+            case "/usr/chat/createRoom":
+                chatController.doCreateRoom(rq);
+                break;
+            case "/usr/chat/modifyRoom":
+                chatController.doModifyRoom(rq);
+                break;
+            // 게시물
             case "/usr/article/write":
                 articleController.doWrite(rq);
             case "/usr/article/modify":
@@ -36,9 +48,28 @@ public class DispatchServlet extends HttpServlet {
 
         MemberController memberController = new MemberController();
         ArticleController articleController = new ArticleController();
+        ChatController chatController = new ChatController();
 
         // 요청 메서드(get, post)에 따라 구분
         switch (rq.getActionPath()) {
+            // 채팅
+            case "/usr/chat/createRoom":
+                chatController.showCreateRoom(rq);
+                break;
+            case "/usr/chat/modifyRoom":
+                chatController.showModifyRoom(rq);
+                break;
+            case "/usr/chat/roomList":
+                chatController.showRoomList(rq);
+                break;
+            case "/usr/chat/room":
+                chatController.showRoom(rq);
+                break;
+            // TODO: POST로 옮기기(roomList.jsp 수정)
+            case "/usr/chat/deleteRoom":
+                chatController.deleteRoom(rq);
+                break;
+            // 게시물
             case "/usr/article/list":
                 articleController.showList(rq);
             case "/usr/article/listAuto":
@@ -59,6 +90,7 @@ public class DispatchServlet extends HttpServlet {
             case "/usr/member/login":
                 memberController.showLogin(rq);
                 break;
+            // TODO: POST로 옮기기
             case "/usr/article/delete":
                 articleController.doDelete(rq);
                 break;

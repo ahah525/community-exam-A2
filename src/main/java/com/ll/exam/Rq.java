@@ -72,10 +72,16 @@ public class Rq {
         req.setAttribute(name, value);
     }
 
-    public void view(String path) throws ServletException, IOException {
+    public void view(String path) {
         // 나머지 작업은 jsp에 토스
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/jsp/" + path + ".jsp");
-        requestDispatcher.forward(req, resp);
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // request URI 반환(query string 제외한 부분까지)
