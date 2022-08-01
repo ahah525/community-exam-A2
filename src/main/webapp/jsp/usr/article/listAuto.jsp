@@ -4,10 +4,21 @@
 <%@ include file="../common/header.jspf"%>
 
 <script>
-    function Article__loadMore() {
-        $('.articles').append(`
-        <li>안녕</li>
-    `);
+    let Articles__lastId = 0;
+    function Articles__loadMore() {
+        fetch(`/usr/article/getArticles/free?fromId=${Articles__lastId}`)
+            .then(data => data.json())
+            .then(responseData => {
+                console.log(responseData);
+                // 게시글 가져오기
+                for ( const key in responseData.data ) {
+                    const article = responseData.data[key];
+                    const html = `
+                    <li> \${article.id} </li>
+                `;
+                    $('.articles').append(html);
+                }
+            });
     }
 </script>
 
@@ -21,7 +32,7 @@
 
         <hr>
 
-        <button class="btn btn-sm" onclick="Article__loadMore();">불러오기</button>
+        <button class="btn btn-sm" onclick="Articles__loadMore();">불러오기</button>
     </div>
 </section>
 
