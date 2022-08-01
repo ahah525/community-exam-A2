@@ -6,17 +6,27 @@
 <script>
     let Articles__lastId = 0;
     function Articles__loadMore() {
-        fetch(`/usr/article/getArticles/free?fromId=${Articles__lastId}`)
+        // \붙이는 이유
+        fetch(`/usr/article/getArticles/free?fromId=\${Articles__lastId}`)
             .then(data => data.json())
             .then(responseData => {
-                console.log(responseData);
-                // 게시글 가져오기
-                for ( const key in responseData.data ) {
-                    const article = responseData.data[key];
+                const articles = responseData.data;
+                // 추가로 게시글 가져오기
+                for ( const index in articles ) {
+                    const article = articles[index];
                     const html = `
-                    <li> \${article.id} </li>
+                    <li class="flex">
+                        <a class="w-[40px] hover:underline hover:text-[red]" href="/usr/article/detail/free/\${article.id}">\${article.id}</a>
+                        <a class="flex-grow hover:underline hover:text-[red]" href="/usr/article/detail/free/\${article.id}">\${article.title}</a>
+                        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" class="hover:underline hover:text-[red] mr-2" href="/usr/article/delete/free/\${article.id}?_method=DELETE">삭제</a>
+                        <a class="hover:underline hover:text-[red]" href="/usr/article/modify/free/\${article.id}">수정</a>
+                    </li>
                 `;
                     $('.articles').append(html);
+                }
+                // 추가로 게시물 가져왔으면 마지막 게시물 id 업데이트
+                if ( articles.length > 0 ) {
+                    Articles__lastId = articles[articles.length - 1].id;
                 }
             });
     }
@@ -30,10 +40,14 @@
             <!-- 이 부분에 자바스크립트를 통해서 HTML을 채우겠습니다. -->
         </ul>
 
-        <hr>
+        <hr class="mt-3 mb-3">
 
-        <button class="btn btn-sm" onclick="Articles__loadMore();">불러오기</button>
+        <button class="btn btn-sm" onclick="Articles__loadMore();">추가로 불러오기</button>
     </div>
 </section>
+
+<script>
+    Articles__loadMore();
+</script>
 
 <%@ include file="../common/footer.jspf"%>
